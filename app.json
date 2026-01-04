@@ -1,0 +1,42 @@
+{
+  "expo": {
+    "name": "Sokofunds",
+    "slug": "sokofunds",
+    "version": "1.0.0",
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "experiments": {
+      "tsconfigPaths": true
+    },
+    "plugins": [],
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#407BFF"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.sokofunds.app"
+    },
+    "android": {
+      "package": "com.sokofunds.app",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/icon.png",
+        "backgroundColor": "#407BFF"
+      }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "36fb6c0d-7adf-497f-b91d-4bf48656a2de"
+      }
+    },
+    "owner": "mubarakodetunde"
+  }
+}
