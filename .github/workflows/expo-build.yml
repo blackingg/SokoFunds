@@ -1,4 +1,4 @@
-name: Expo EAS Build (Android)
+name: Expo EAS Build and Release (Android)
 
 on:
   push:
@@ -8,6 +8,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # Required to create a release
 
     steps:
       - name: Checkout repository
@@ -26,7 +28,34 @@ jobs:
       - name: Install EAS CLI
         run: npm install -g eas-cli
 
-      - name: Run Expo EAS Build (Android)
+      - name: Build Android App (APK & AAB)
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
-        run: eas build --platform android --non-interactive
+        run: |
+          mkdir -p dist
+          # Build APK using preview profile
+          eas build --platform android --profile preview --non-interactive --output=dist/SokoFunds.apk
+          # Build AAB using production profile
+          eas build --platform android --profile production --non-interactive --output=dist/SokoFunds.aab
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            dist/SokoFunds.apk
+            dist/SokoFunds.aab
+          tag_name: v${{ github.run_number }}
+          name: Build v${{ github.run_number }}
+          body: |
+            Automated production build for SokoFunds.
+
+            **Platform:** Android
+            **Files:** 
+            - `SokoFunds.apk` (Direct Install)
+            - `SokoFunds.aab` (Google Play Store)
+            **Build Number:** ${{ github.run_number }}
+            **Date:** ${{ github.event.head_commit.timestamp }}
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
